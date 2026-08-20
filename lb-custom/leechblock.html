@@ -30,6 +30,7 @@
     }
 
     #lbBlockedURLLink {
+      margin-top: 15px;
       pointer-events: none;
       opacity: 0.4;
     }
@@ -40,7 +41,6 @@
     }
 
     button {
-      margin-top: 15px;
       padding: 14px 28px;
       font-size: 18px;
       border: none;
@@ -72,7 +72,7 @@
   </a>
 
   <script>
-    const DELAY = 30; // seconds
+    const DELAY = 30;
 
     let remaining = DELAY;
 
@@ -84,13 +84,27 @@
 
       if (remaining > 0) {
         timer.textContent = `Wait ${remaining} seconds...`;
-      } else {
-        clearInterval(countdown);
-
-        timer.textContent = "You can continue.";
-
-        link.classList.add("enabled");
+        return;
       }
+
+      clearInterval(countdown);
+
+      timer.textContent = "You can continue.";
+      link.classList.add("enabled");
+
+      /*
+       * Tell LeechBlock NG that our custom delay
+       * has finished.
+       *
+       * blocked.js listens for this message and
+       * forwards it to the LeechBlock extension.
+       */
+      window.postMessage({
+        type: "REPORT_DELAY_TO_LEECHBLOCK_NG",
+        blockURL: link.href,
+        blockedSet: Number(new URLSearchParams(location.search).get("set"))
+      }, "*");
+
     }, 1000);
   </script>
 
