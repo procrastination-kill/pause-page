@@ -41,11 +41,8 @@
 
   <script>
     document.getElementById("continue").addEventListener("click", function () {
-      const params = new URLSearchParams(window.location.search);
-      const blockedURL = params.get("u");
-
-      if (blockedURL) {
-        window.location.href = blockedURL;
+      if (typeof LB !== "undefined" && LB.continue) {
+        LB.continue();
       }
     });
   </script>
