@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pause</title>
 
   <style>
@@ -14,11 +15,12 @@
       align-items: center;
       background: white;
       font-family: Arial, sans-serif;
+      text-align: center;
     }
 
     img {
       max-width: 70vw;
-      max-height: 70vh;
+      max-height: 65vh;
       object-fit: contain;
     }
 
@@ -29,21 +31,61 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      background: #222;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    #message {
+      margin-top: 15px;
+      color: #666;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
 
-  <img src="https://image-resizing.booztcdn.com/hoptimist/hot26156_cwhite_vbumble_9.webp?has_webp=1&version=74a28bc085109e37c66682b8e0cd63a8&size=w900">
+  <img
+    src="https://image-resizing.booztcdn.com/hoptimist/hot26156_cwhite_vbumble_9.webp?has_webp=1&version=74a28bc085109e37c66682b8e0cd63a8&size=w900"
+    alt="Pause"
+  >
 
-  <button id="continue">I still want to continue</button>
+  <button id="continueButton">
+    I still want to continue
+  </button>
+
+  <div id="message"></div>
 
   <script>
-    document.getElementById("continue").addEventListener("click", function () {
-      if (typeof LB !== "undefined" && LB.continue) {
-        LB.continue();
+    const params = new URLSearchParams(window.location.search);
+
+    /*
+      LeechBlock should pass the original URL using $U.
+      We check several possible parameter names so we can
+      diagnose what your version is actually providing.
+    */
+
+    const target =
+      params.get("u") ||
+      params.get("url") ||
+      params.get("U");
+
+    const button = document.getElementById("continueButton");
+    const message = document.getElementById("message");
+
+    button.addEventListener("click", function () {
+
+      if (target) {
+        window.location.href = target;
+      } else {
+        message.textContent =
+          "No destination URL was provided by LeechBlock.";
       }
+
     });
   </script>
 
