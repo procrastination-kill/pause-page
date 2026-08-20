@@ -24,8 +24,23 @@
       object-fit: contain;
     }
 
+    #timer {
+      margin-top: 25px;
+      font-size: 24px;
+    }
+
+    #lbBlockedURLLink {
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    #lbBlockedURLLink.enabled {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
     button {
-      margin-top: 30px;
+      margin-top: 15px;
       padding: 14px 28px;
       font-size: 18px;
       border: none;
@@ -48,11 +63,36 @@
     alt="Pause"
   >
 
+  <div id="timer">Wait 30 seconds...</div>
+
   <a id="lbBlockedURLLink" href="#">
     <button type="button">
       I still want to continue
     </button>
   </a>
+
+  <script>
+    const DELAY = 30; // seconds
+
+    let remaining = DELAY;
+
+    const timer = document.getElementById("timer");
+    const link = document.getElementById("lbBlockedURLLink");
+
+    const countdown = setInterval(() => {
+      remaining--;
+
+      if (remaining > 0) {
+        timer.textContent = `Wait ${remaining} seconds...`;
+      } else {
+        clearInterval(countdown);
+
+        timer.textContent = "You can continue.";
+
+        link.classList.add("enabled");
+      }
+    }, 1000);
+  </script>
 
 </body>
 </html>
