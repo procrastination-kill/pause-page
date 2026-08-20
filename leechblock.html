@@ -61,32 +61,20 @@
   <div id="message"></div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
+<script>
+  document.getElementById("continueButton").addEventListener("click", function () {
+    const query = window.location.search.substring(1);
+    const separator = query.indexOf("&");
 
-    /*
-      LeechBlock should pass the original URL using $U.
-      We check several possible parameter names so we can
-      diagnose what your version is actually providing.
-    */
-
-    const target =
-      params.get("u") ||
-      params.get("url") ||
-      params.get("U");
-
-    const button = document.getElementById("continueButton");
-    const message = document.getElementById("message");
-
-    button.addEventListener("click", function () {
+    if (separator !== -1) {
+      const target = query.substring(separator + 1);
 
       if (target) {
-        window.location.href = target;
-      } else {
-        message.textContent =
-          "No destination URL was provided by LeechBlock.";
+        window.location.assign(target);
       }
-
-    });
+    }
+  });
+</script>
   </script>
 
 </body>
