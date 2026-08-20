@@ -38,12 +38,6 @@
     button:hover {
       opacity: 0.8;
     }
-
-    #message {
-      margin-top: 15px;
-      color: #666;
-      font-size: 14px;
-    }
   </style>
 </head>
 
@@ -58,23 +52,29 @@
     I still want to continue
   </button>
 
-  <div id="message"></div>
-
   <script>
-<script>
-  document.getElementById("continueButton").addEventListener("click", function () {
-    const query = window.location.search.substring(1);
-    const separator = query.indexOf("&");
+    document.getElementById("continueButton").addEventListener("click", function () {
 
-    if (separator !== -1) {
-      const target = query.substring(separator + 1);
+      // LeechBlock gives us:
+      // ?1&http://youtube.com/
 
-      if (target) {
-        window.location.assign(target);
+      const query = window.location.search.substring(1);
+      const ampersand = query.indexOf("&");
+
+      if (ampersand === -1) {
+        alert("No destination URL found.");
+        return;
       }
-    }
-  });
-</script>
+
+      const destination = query.substring(ampersand + 1);
+
+      if (!destination) {
+        alert("No destination URL found.");
+        return;
+      }
+
+      window.location.href = destination;
+    });
   </script>
 
 </body>
